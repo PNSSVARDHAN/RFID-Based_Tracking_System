@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #stepsContainer div {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function generateStepFields() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            stepsContainer.innerHTML = ''; // Clear previous fields
+            const numberOfSteps = document.getElementById('numberOfSteps').value;
+            for (let i = 1; i <= numberOfSteps; i++) {
+                const stepDiv = document.createElement('div');
+                stepDiv.innerHTML = `<label for="step${i}">Step ${i} Name:</label>
+                                     <select id="step${i}" name="step${i}" required>
+                                         <option value="option1">Striching</option>
+                                         <option value="option2">Collar</option>
+                                         <option value="option3">Hands</option>
+                                     </select><br>`;
+                stepsContainer.appendChild(stepDiv);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Order Form</h1>
+    <form>
+        <label for="orderId">Order ID:</label>
+        <input type="text" id="orderId" name="orderId" required><br><br>
+        
+        <label for="numberOfSteps">Number of Steps:</label>
+        <input type="number" id="numberOfSteps" name="numberOfSteps" min="1" required>
+        <button type="button" onclick="generateStepFields()">Generate Steps</button><br><br>
+        
+        <div id="stepsContainer"></div>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

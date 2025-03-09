@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Task</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"], select {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Task List</h1>
+    <form id="taskForm">
+        <label for="employee">Employee:</label>
+        <select id="employee" name="employee" required>
+            <option value="" disabled selected>Select an employee</option>
+            <option value="1">John Doe</option>
+            <option value="2">Jane Smith</option>
+            <option value="3">Alice Johnson</option>
+        </select>
+        <label for="employeeId">Employee ID:</label>
+        <input type="number" id="employeeId" name="employeeId" readonly>
+        <label for="task">Task for Today:</label>
+        <input type="text" id="task" name="task" required>
+        <input type="submit" value="Add Task">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Employee ID</th>
+                <th>Task</th>
+            </tr>
+        </thead>
+        <tbody id="taskTableBody">
+        </tbody>
+    </table>
+    <script>
+        const employeeData = {
+            "1": "John Doe",
+            "2": "Jane Smith",
+            "3": "Alice Johnson"
+        };
+
+        document.getElementById('employee').addEventListener('change', function() {
+            const employeeId = this.value;
+            document.getElementById('employeeId').value = employeeId;
+        });
+
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const employeeId = document.getElementById('employeeId').value;
+            const name = employeeData[employeeId];
+            const task = document.getElementById('task').value;
+
+            const tableBody = document.getElementById('taskTableBody');
+            const newRow = document.createElement('tr');
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = name;
+            newRow.appendChild(nameCell);
+
+            const employeeIdCell = document.createElement('td');
+            employeeIdCell.textContent = employeeId;
+            newRow.appendChild(employeeIdCell);
+
+            const taskCell = document.createElement('td');
+            taskCell.textContent = task;
+            newRow.appendChild(taskCell);
+
+            tableBody.appendChild(newRow);
+
+            document.getElementById('taskForm').reset();
+        });
+    </script>
+</body>
+</html>
