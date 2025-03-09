@@ -69,11 +69,7 @@
             for (let i = 1; i <= numberOfSteps; i++) {
                 const stepDiv = document.createElement('div');
                 stepDiv.innerHTML = `<label for="step${i}">Step ${i} Name:</label>
-                                     <select id="step${i}" name="step${i}" required>
-                                         <option value="option1">Striching</option>
-                                         <option value="option2">Collar</option>
-                                         <option value="option3">Hands</option>
-                                     </select><br>`;
+                                     <input type="text" id="step${i}" name="step${i}" required><br>`;
                 stepsContainer.appendChild(stepDiv);
             }
         }
