@@ -88,8 +88,16 @@
             border: none;
             cursor: pointer;
         }
+        .machine-grid button.assigned {
+            background-color: #FF5733;
+        }
         .machine-grid button:hover {
             background-color: #0b7dda;
+        }
+        .checkmark {
+            color: green;
+            font-size: 20px;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -129,6 +137,7 @@
         ];
 
         const machines = Array.from({ length: 100 }, (_, i) => `Machine ${i + 1}`);
+        const assignedMachines = {};
 
         const orderTableBody = document.getElementById('orderTableBody');
         const modal = document.getElementById('myModal');
@@ -146,7 +155,7 @@
                 <td>${order.id}</td>
                 <td>${order.product}</td>
                 <td>${order.quantity}</td>
-                <td><button onclick="handleButtonClick(${order.id})">Assign</button></td>
+                <td><button id="assignButton${order.id}" onclick="handleButtonClick(${order.id})">Assign</button><span id="checkmark${order.id}" class="checkmark" style="display: none;">&#10003;</span></td>
             `;
 
             orderTableBody.appendChild(row);
@@ -166,17 +175,31 @@
                 machines.forEach(machine => {
                     const button = document.createElement('button');
                     button.textContent = machine;
-                    button.onclick = () => assignMachineToStep(machine);
+                    if (assignedMachines[machine]) {
+                        button.classList.add('assigned');
+                        button.textContent += ` (Order ${assignedMachines[machine].orderId}, Step ${assignedMachines[machine].stepName})`;
+                    }
+                    button.onclick = () => assignMachineToStep(machine, button);
                     machineGrid.appendChild(button);
                 });
                 modal.style.display = 'block';
             } else {
+                document.getElementById(`checkmark${currentOrderId}`).style.display = 'inline';
                 alert('All steps assigned for this order.');
             }
         }
 
-        function assignMachineToStep(machine) {
-            alert(`Machine ${machine} assigned to step ${currentStepIndex + 1} of order ID: ${currentOrderId}`);
+        function assignMachineToStep(machine, button) {
+            const order = orders.find(o => o.id === currentOrderId);
+            const stepName = order.steps[currentStepIndex];
+            if (assignedMachines[machine]) {
+                alert(`Machine ${machine} is already assigned to Order ${assignedMachines[machine].orderId}, Step ${assignedMachines[machine].stepName}`);
+                return;
+            }
+            assignedMachines[machine] = { orderId: currentOrderId, stepName: stepName };
+            button.classList.add('assigned');
+            button.textContent += ` (Order ${currentOrderId}, Step ${stepName})`;
+            alert(`Machine ${machine} assigned to step ${currentStepIndex + 1} (${stepName}) of order ID: ${currentOrderId}`);
             currentStepIndex++;
             modal.style.display = 'none';
             showStepModal();
