@@ -99,10 +99,8 @@
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Customer Name</th>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Price</th>
                 <th>Assign</th>
             </tr>
         </thead>
@@ -115,7 +113,7 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Select a Machine</h2>
+            <h2>Select a Machine for Step <span id="stepNumber"></span></h2>
             <div class="machine-grid" id="machineGrid">
                 <!-- Machines will be dynamically inserted here -->
             </div>
@@ -125,8 +123,8 @@
     <script>
         // Example orders data
         const orders = [
-            { id: 1, customerName: 'John Doe', product: 'Laptop', quantity: 1, price: 1000 },
-            { id: 2, customerName: 'Jane Smith', product: 'Phone', quantity: 2, price: 500 },
+            { id: 1, customerName: 'John Doe', product: 'shirt', quantity: 1, price: 1000, steps: ['Cutting', 'Sewing', 'Finishing'] },
+            { id: 2, customerName: 'Jane Smith', product: 'Pant', quantity: 2, price: 500, steps: ['Cutting', 'Sewing', 'Finishing'] },
             // Add more orders as needed
         ];
 
@@ -136,31 +134,52 @@
         const modal = document.getElementById('myModal');
         const span = document.getElementsByClassName('close')[0];
         const machineGrid = document.getElementById('machineGrid');
+        const stepNumber = document.getElementById('stepNumber');
+
+        let currentOrderId = null;
+        let currentStepIndex = null;
 
         orders.forEach(order => {
             const row = document.createElement('tr');
 
             row.innerHTML = `
                 <td>${order.id}</td>
-                <td>${order.customerName}</td>
                 <td>${order.product}</td>
                 <td>${order.quantity}</td>
-                <td>${order.price}</td>
                 <td><button onclick="handleButtonClick(${order.id})">Assign</button></td>
             `;
 
             orderTableBody.appendChild(row);
         });
 
-        function handleButtonClick(orderId) {
-            machineGrid.innerHTML = '';
-            machines.forEach(machine => {
-                const button = document.createElement('button');
-                button.textContent = machine;
-                button.onclick = () => alert(`Machine ${machine} assigned to order ID: ${orderId}`);
-                machineGrid.appendChild(button);
-            });
-            modal.style.display = 'block';
+        function handleButtonClick(orderId) { 
+            currentOrderId = orderId;
+            currentStepIndex = 0;
+            showStepModal();
+        }
+
+        function showStepModal() {
+            const order = orders.find(o => o.id === currentOrderId);
+            if (currentStepIndex < order.steps.length) {
+                stepNumber.textContent = `${currentStepIndex + 1} (${order.steps[currentStepIndex]})`;
+                machineGrid.innerHTML = '';
+                machines.forEach(machine => {
+                    const button = document.createElement('button');
+                    button.textContent = machine;
+                    button.onclick = () => assignMachineToStep(machine);
+                    machineGrid.appendChild(button);
+                });
+                modal.style.display = 'block';
+            } else {
+                alert('All steps assigned for this order.');
+            }
+        }
+
+        function assignMachineToStep(machine) {
+            alert(`Machine ${machine} assigned to step ${currentStepIndex + 1} of order ID: ${currentOrderId}`);
+            currentStepIndex++;
+            modal.style.display = 'none';
+            showStepModal();
         }
 
         span.onclick = function() {
