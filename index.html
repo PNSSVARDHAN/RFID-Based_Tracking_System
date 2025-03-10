@@ -31,6 +31,19 @@
             box-shadow: 0 5px #666;
             transform: translateY(4px);
         }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -39,5 +52,28 @@
     <button class="button" onclick="location.href='neworder.html'">New Order</button>
     <button class="button" onclick="location.href='orderdetails.html'">Order Details</button>
     <button class="button" onclick="location.href='Employee_task.html'">Employee task</button>  
+
+    <h2>Employee Dashboard</h2>
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Target </th>
+            <th>Completed </th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>100</td>
+            <td>80</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>150</td>
+            <td>120</td>
+        </tr>
+        <!-- Add more rows as needed -->
+    </table>
 </body>
 </html>
