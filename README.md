@@ -76,6 +76,9 @@ DB_NAME=mes</code></pre>
   <li>Automated Payroll Calculation</li>
 </ul>
 
+<h2>NOTE</h2>
+<P>This is only for demo the origin design is in private you can see the origin in the below link </P>
+<Strong>https://smo-frontend.vercel.app/</Strong>
 <h2>Contributing</h2>
 <p>If you’d like to contribute, feel free to fork the repository and submit a pull request.</p>
 
